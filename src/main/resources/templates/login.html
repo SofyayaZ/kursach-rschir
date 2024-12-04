@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Вход в систему</h1>
+    <form th:action="@{/login}" th:object="${user}" method="post">
+        <input type="text" name="username" placeholder="Имя пользователя" autofocus="true" required>
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
+        <br />
+
+        <input type="password" name="password" placeholder="Пароль" required>
+        <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+        <br />
+
+        <button type="submit">Войти</button>
+    </form>
+    <h4><a href="/register">Зарегистрироваться</a></h4>
+</body>
+</html>

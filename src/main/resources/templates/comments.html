@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Комментарии</title>
+</head>
+<body>
+<h4><span th:text="${place.getName()}"></span></h4>
+
+
+
+<form th:method="post" th:action="@{/comments/add}">
+    <input th:type="hidden" name="placeId" th:value="${place.getId()}">
+    <textarea placeholder="Ваш комментарий" name="text"></textarea>
+    <br />
+    <button type="submit">Добавить комментарий</button>
+</form>
+
+<br />
+<br />
+
+<div th:each="comment : ${comments}">
+    <span th:text="${comment.getUser().getUsername()}"></span><br/>
+    <span th:text="${comment.getText()}"></span>
+    <br />
+
+    <form th:method="patch" th:action="@{/comments/update}">
+        <input th:type="hidden" name="commentId" th:value="${comment.getId()}">
+        <input th:type="hidden" name="placeId" th:value="${place.getId()}">
+        <textarea placeholder="Введите новый текст ..." name="newText"></textarea>
+        <br />
+        <button type="submit">Изменить</button>
+    </form>
+
+    <form th:method="delete" th:action="@{/comments/delete}">
+        <input type="hidden" name="commentId" th:value="${comment.getId()}" />
+        <input type="hidden" name="placeId" th:value="${place.getId()}">
+        <button type="submit">Удалить</button>
+    </form>
+    <hr />
+</div>
+
+<hr />
+
+<a href="/lmap">Вернуться на карту</a>
+
+</body>
+</html>

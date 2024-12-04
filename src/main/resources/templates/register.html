@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Регистрация</title>
+</head>
+<body>
+<h4>Регистрация</h4>
+<div>
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <input type="text" name="username" placeholder="Имя пользователя" autofocus="true" required>
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
+        <br />
+
+        <input type="password" name="password" placeholder="Пароль" required>
+        <br />
+
+        <input type="passwordConfirm" name="passwordConfirm" placeholder="Повторите пароль" required>
+        <div style="color:red" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Error</div>
+        <br />
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <h4><a href="/login">Авторизоваться</a></h4>
+</div>
+</body>
+</html>

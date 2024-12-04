@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Карта</h1>
+<div id="map"></div>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    // Инициализация карты
+    var map = L.map('map').setView([0, 0], 2);
+
+    // Определяем максимальные границы карты
+    var southWest = L.latLng(34.0, 20.0);
+    var northEast = L.latLng(42.0, 25.0);
+    var bounds = L.latLngBounds(southWest, northEast);
+    map.setMaxBounds(bounds);
+
+
+    // Слой с плиточками
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+    }).addTo(map);
+
+
+    function loadPlaces() {
+        fetch('http://localhost:8080/api/places')
+            .then(response => response.json())
+            .then(places => {
+                places.forEach(place => {
+                    const lat = place.lat;
+                    const lon = place.lon;
+
+                    if (lat !== undefined && lon !== undefined) {
+                        L.marker([lat, lon]).addTo(map).bindPopup("<a href='/comments?id=" + place.id + "'>" + place.name + "</a>");
+                    } else {
+                        console.error('Координаты не доступны: ', place);
+                    }
+               });
+            })
+            .catch(error => console.error('Ошибка:', error));
+    }
+
+        // Загрузка мест на карту
+        loadPlaces();
+</script>
+
+</body>
+</html>
